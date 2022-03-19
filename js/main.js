@@ -50,6 +50,7 @@ const chair = {
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
         let check = doAbilityCheck(person[actions[action]],m,s)
+        console.log(check)
         alert(this[action][check])
     }
 }
@@ -60,7 +61,7 @@ function makePerson(i,s,c,d) {
 
 
 function calculateRoll(ability) {
-    let natRoll = Math.ceil(Math.random * 20)
+    let natRoll = Math.ceil(Math.random() * 20)
     let critStatus;
     switch (natRoll) {
         case 20:
@@ -77,6 +78,7 @@ function calculateRoll(ability) {
         roll: natRoll + ability,
         crit: critStatus
     }
+    console.log(thisCheck)
     return thisCheck
 }
 
