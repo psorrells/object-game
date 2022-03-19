@@ -61,14 +61,14 @@ const chair = {
 document.querySelector("#submit-character").addEventListener('click', createACharacter)
 
 function createACharacter() {
-    const i = parseInt(document.querySelector("#int").getValue)
-    const s = parseInt(document.querySelector("#str").getValue)
-    const c = parseInt(document.querySelector("#con").getValue)
-    const d = parseInt(document.querySelector("#dex").getValue)
+    const i = parseInt(document.querySelector("#int").value)
+    const s = parseInt(document.querySelector("#str").value)
+    const c = parseInt(document.querySelector("#con").value)
+    const d = parseInt(document.querySelector("#dex").value)
     if (i + s + c + d != 10 || i < 0 || s < 0 || c < 0 || d < 0 || i > 10 || s > 10 || c > 10 || d > 10) {
         alert("Please give your charcter positive integer values that sum up to 10 where none are greater than 10 or less than 0")
     } else {
-        person1 = makePerson(i,s,c,d)
+        person1 = makePerson(i - 3,s - 3,c - 3,d - 3)
         alert(`Character created! your stats are int:${person1.intelligence} str:${person1.strength} con:${person1.constitution} dex:${person1.dexterity}`)
     }
 }
