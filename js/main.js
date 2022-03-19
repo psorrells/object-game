@@ -55,10 +55,27 @@ const chair = {
     }
 }
 
+
+//Making Character
+
+document.querySelector("#submit-character").addEventListener('click', createACharacter)
+
+function createACharacter() {
+    const i = parseInt(document.querySelector("#int").getValue)
+    const s = parseInt(document.querySelector("#str").getValue)
+    const c = parseInt(document.querySelector("#con").getValue)
+    const d = parseInt(document.querySelector("#dex").getValue)
+    if (i + s + c + d != 10 || i < 0 || s < 0 || c < 0 || d < 0 || i > 10 || s > 10 || c > 10 || d > 10) {
+        alert("Please give your charcter positive integer values that sum up to 10 where none are greater than 10 or less than 0")
+    }
+}
+
 function makePerson(i,s,c,d) {
     return {intelligence: i, strength: s, constitution: c, dexterity: d, location: 'floor'}
 }
 
+
+//Ability Checking
 
 function calculateRoll(ability) {
     let natRoll = Math.ceil(Math.random() * 20)
