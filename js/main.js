@@ -31,7 +31,7 @@ const chair = {
     "eat": {
         "successRoll": 16,
         "moderateRoll": 9,
-        "critical failure": "You try to take a huge bite out of that deliciously looking solid oak chair. You crack your teeth.",
+        "critical failure": "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
         "failure": "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
         "moderate": "You try to eat the chair, but it is solid oak. You can't eat it.",
         "success": "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
