@@ -27,11 +27,11 @@ const chair = {
         "critical success": "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are now made of wood and able punch your way through the wall out of here."
     },
     "jump on": {
-        "critical failure": 1,
-        "failure": 2,
-        "moderate": 3,
-        "success": 4,
-        "critical success": 5
+        "critical failure": "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
+        "failure": "You try to jump on the chair, but are unable to get a good height and miss.",
+        "moderate": "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
+        "success": "You jump on the chair with finesse. This was an easy task for you.",
+        "critical success": "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
     },
 }
 
