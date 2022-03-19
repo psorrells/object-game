@@ -62,7 +62,7 @@ function makePerson(i,s,c,d) {
 function calculateRoll(ability) {
     let natRoll = Math.ceil(Math.random * 20)
     let critStatus;
-    switch (roll) {
+    switch (natRoll) {
         case 20:
             critStatus = "success";
             break;
