@@ -5,7 +5,7 @@ const actions = {
     "jump on": "dexterity"
 }
 
-let person;
+let person1;
 
 /* OBJECTS */
 //Chair
@@ -49,7 +49,7 @@ const chair = {
     interact(person, action) {
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
-        let check = doAbilityCheck
+        let check = doAbilityCheck(person[actions[action]],m,s)
     }
 }
 
