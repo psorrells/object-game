@@ -35,7 +35,7 @@ const chair = {
         "failure": "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
         "moderate": "You try to eat the chair, but it is solid oak. You can't eat it.",
         "success": "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
-        "critical success": "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are now made of wood and able punch your way through the wall out of here."
+        "critical success": "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here."
     },
     "jump on": {
         "successRoll": 16,
