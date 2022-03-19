@@ -70,6 +70,7 @@ function createACharacter() {
     } else {
         person1 = makePerson(i - 2,s - 2,c - 2,d - 2)
         alert(`Character created! your stats are int:${person1.intelligence} str:${person1.strength} con:${person1.constitution} dex:${person1.dexterity}`)
+        document.querySelector("#create-character").classList.add("hidden")
     }
 }
 
