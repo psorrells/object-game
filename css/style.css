@@ -44,3 +44,10 @@ footer {
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
+
+#chair {
+     width: 300px;
+     height: 300px;
+     background: rgb(100,50,20);
+     color: white;
+}

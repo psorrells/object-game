@@ -54,6 +54,7 @@ const chair = {
         alert(this[action][check])
     }
 }
+const interactables = {"chair": chair}
 
 
 //Making Character
@@ -71,6 +72,7 @@ function createACharacter() {
         person1 = makePerson(i - 2,s - 2,c - 2,d - 2)
         alert(`Character created! your stats are int:${person1.intelligence} str:${person1.strength} con:${person1.constitution} dex:${person1.dexterity}`)
         document.querySelector("#create-character").classList.add("hidden")
+        document.querySelector("#room").classList.remove("hidden")
     }
 }
 
@@ -99,7 +101,6 @@ function calculateRoll(ability) {
         roll: natRoll + ability,
         crit: critStatus
     }
-    console.log(thisCheck)
     return thisCheck
 }
 
@@ -116,4 +117,15 @@ function doAbilityCheck(ability, moderateValue, successValue) {
     } else {
         return "success"
     }
+}
+
+// Interact with an object
+
+document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', startInteraction))
+
+function startInteraction() {
+    let action = prompt("Do you want to study, move, eat, or jump on the object?","")
+    let object = "chair"
+
+    interactables[object].interact(person1,action)
 }
