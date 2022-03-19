@@ -2,7 +2,7 @@ const actions = {
     "study": "intelligence",
     "move": "strength",
     "eat": "constitution",
-    "jump on": "dexterity",
+    "jump on": "dexterity"
 }
 
 let person;
