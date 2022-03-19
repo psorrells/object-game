@@ -5,7 +5,7 @@ const actions = {
     "jump on": "dexterity"
 }
 
-let person1;
+let person1 = makePerson(4,3,2,1)
 
 /* OBJECTS */
 //Chair
@@ -50,6 +50,7 @@ const chair = {
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
         let check = doAbilityCheck(person[actions[action]],m,s)
+        alert(this[action][check])
     }
 }
 
