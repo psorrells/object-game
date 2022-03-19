@@ -67,6 +67,9 @@ function createACharacter() {
     const d = parseInt(document.querySelector("#dex").getValue)
     if (i + s + c + d != 10 || i < 0 || s < 0 || c < 0 || d < 0 || i > 10 || s > 10 || c > 10 || d > 10) {
         alert("Please give your charcter positive integer values that sum up to 10 where none are greater than 10 or less than 0")
+    } else {
+        person1 = makePerson(i,s,c,d)
+        alert(`Character created! your stats are int:${person1.intelligence} str:${person1.strength} con:${person1.constitution} dex:${person1.dexterity}`)
     }
 }
 
