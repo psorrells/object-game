@@ -27,3 +27,18 @@ function calculateRoll(ability) {
     }
     return thisCheck
 }
+
+function doAbilityCheck(ability, moderateValue, successValue) {
+    let abilityCheck = calculateRoll(ability)
+    if (abilityCheck.crit === "success") {
+        return "critical success"
+    } else if (abilityCheck.crit === "failure") {
+        return "critical failure"
+    } else if (abilityCheck.roll < moderateValue) {
+        return "failure"
+    } else if (abilityCheck.roll < successValue) {
+        return "moderate"
+    } else {
+        return "success"
+    }
+}
