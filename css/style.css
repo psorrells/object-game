@@ -51,3 +51,11 @@ footer {
      background: rgb(100,50,20);
      color: white;
 }
+
+#interact-screen {
+     width: 200px;
+     height: 200px;
+     background: white;
+     border: 1px solid black;
+     text-align: center;
+}
