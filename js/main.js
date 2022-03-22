@@ -5,7 +5,7 @@ const actions = {
     "jump on": "dexterity"
 }
 
-let person1 = makePerson(4,3,2,1)
+let person1;
 
 /* OBJECTS */
 //Chair
@@ -121,11 +121,11 @@ function doAbilityCheck(ability, moderateValue, successValue) {
 
 // Interact with an object
 
-document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', startInteraction))
+document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
 
-function startInteraction() {
+function startInteraction(obj) {
     let action = prompt("Do you want to study, move, eat, or jump on the object?","")
-    let object = "chair"
+    let object = obj
 
     interactables[object].interact(person1,action)
 }
