@@ -20,8 +20,8 @@ const chair = {
         "critical success": "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!"
     },
     "move": {
-        "successRoll": 16,
-        "moderateRoll": 9,
+        "successRoll": 14,
+        "moderateRoll": 7,
         "critical failure": "You try to pick up the chair and break your hip. Should've stretched first.",
         "failure": "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
         "moderate": "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
@@ -29,7 +29,7 @@ const chair = {
         "critical success": "You throw the chair as hard as you can. It breaks the wall, and you are free."
     },
     "eat": {
-        "successRoll": 16,
+        "successRoll": 18,
         "moderateRoll": 9,
         "critical failure": "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
         "failure": "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
