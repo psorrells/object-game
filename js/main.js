@@ -124,8 +124,13 @@ function doAbilityCheck(ability, moderateValue, successValue) {
 document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
 
 function startInteraction(obj) {
-    let action = prompt("Do you want to study, move, eat, or jump on the object?","")
     let object = obj
+    document.querySelector("#roll-check").addEventListener('click', () => sendResponse(obj))
+}
 
+function sendResponse(obj){
+    let object = obj
+    const select = document.getElementById("interact-options")
+    const action = select.option[select.selectedIndex].value
     interactables[object].interact(person1,action)
 }
