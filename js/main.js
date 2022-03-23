@@ -6,6 +6,7 @@ const actions = {
 }
 
 let person1;
+let currentObject;
 
 /* OBJECTS */
 //Chair
@@ -122,16 +123,17 @@ function doAbilityCheck(ability, moderateValue, successValue) {
 // Interact with an object
 
 document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
+document.querySelector("#roll-check").addEventListener('click', sendResponse)
+
 
 function startInteraction(obj) {
-    let object = obj
     document.getElementById("interact-screen").classList.remove('hidden')
-    document.querySelector("#roll-check").addEventListener('click', () => sendResponse(obj))
+    currentObject = obj
 }
 
-function sendResponse(obj){
-    let object = obj
+function sendResponse(){
     const select = document.getElementById("interact-options")
     const action = select.options[select.selectedIndex].value
-    interactables[object].interact(person1,action)
+    interactables[currentObject].interact(person1,action)
+    document.querySelector("#interact-screen").classList.add("hidden")
 }
