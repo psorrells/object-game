@@ -83,11 +83,11 @@ const apple = {
     "eat": {
         "successRoll": 11,
         "moderateRoll": 6,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
+        "critical failure": "You try to eat the apple, but choke on a seed. Game over.",
+        "failure": "You try to eat the apple, but don't really like apples, so you put it back down.",
+        "moderate": "You eat the apple. It's pretty delicious.",
+        "success": "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
+        "critical success": "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls."
     },
     "jump on": {
         "successRoll": 19,
