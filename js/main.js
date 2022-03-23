@@ -92,11 +92,11 @@ const apple = {
     "jump on": {
         "successRoll": 19,
         "moderateRoll": 14,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
+        "critical failure": "You try to jump on the apple, but slip on it instead and sprain your knee. You can't get up for 30 minutes.",
+        "failure": "You try to jump on the apple, but it is too small to aim for, and you can't even land on it.",
+        "moderate": "You try to jump on the apple, but can't quite get your balance, and it slips from under you.",
+        "success": "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
+        "critical success": "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls."
     },
 }
 
