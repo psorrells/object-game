@@ -125,12 +125,13 @@ document.querySelectorAll(".interactable").forEach(item => item.addEventListener
 
 function startInteraction(obj) {
     let object = obj
+    document.getElementById("interact-screen").classList.remove('hidden')
     document.querySelector("#roll-check").addEventListener('click', () => sendResponse(obj))
 }
 
 function sendResponse(obj){
     let object = obj
     const select = document.getElementById("interact-options")
-    const action = select.option[select.selectedIndex].value
+    const action = select.options[select.selectedIndex].value
     interactables[object].interact(person1,action)
 }
