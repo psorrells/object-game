@@ -9,6 +9,17 @@ let person1;
 let currentObject;
 
 /* OBJECTS */
+//Standard Object stuff
+const standardObject = {
+    interact(person, action) {
+        let s = this[action]["successRoll"]
+        let m = this[action]["moderateRoll"]
+        let check = doAbilityCheck(person[actions[action]],m,s)
+        console.log(check)
+        alert(this[action][check])
+    }
+}
+
 //Chair
 const chair = {
     "study": {
@@ -47,15 +58,15 @@ const chair = {
         "success": "You jump on the chair with finesse. This was an easy task for you.",
         "critical success": "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
     },
-    interact(person, action) {
-        let s = this[action]["successRoll"]
-        let m = this[action]["moderateRoll"]
-        let check = doAbilityCheck(person[actions[action]],m,s)
-        console.log(check)
-        alert(this[action][check])
-    }
 }
+
+
+//List of all objects in the scene
 const interactables = {"chair": chair}
+
+for (object in interactables) {
+    Object.assign(interactables[object],standardObject)
+}
 
 
 //Making Character
