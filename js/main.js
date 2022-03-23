@@ -65,7 +65,7 @@ const apple = {
     "study": {
         "successRoll": 16,
         "moderateRoll": 9,
-        "critical failure": "You attempt to use your brain on this apple. You place the apple on the table, look upon it, and slam your head down.You don't know anything about it, but you have applesauce and a knot on your head now.",
+        "critical failure": "You attempt to use your brain on this apple. You place the apple in front of you, look upon it, and slam your head down. You don't know anything about it, but you have applesauce and a knot on your head now.",
         "failure": "You thought you knew something about apples, but you can't even figure out if it is a fruit or a vegetable.",
         "moderate": "It's a nice apple. Shiny, fresh, edible.",
         "success": "This is a pink lady apple. It has a sweet-tart flavor, and is a favorite of the programmer. Maybe if you ate it, it would help you out!",
@@ -74,11 +74,11 @@ const apple = {
     "move": {
         "successRoll": 14,
         "moderateRoll": 7,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
+        "critical failure": "You try to grab the apple to move it, but your clumsy hands just smoosh it between your fingers. I hope you like applesauce and slimy hands.",
+        "failure": "You try to move the apple. You pick it up, but you don't know where to put it down, so you set it back in the same spot.",
+        "moderate": "You move the apple a little to the left. There, nice.",
+        "success": "You roll the apple across the floor, and notice a slight grade to ground. What does this mean? Where are you?",
+        "critical success": "You throw the apple over the wall. Someone on the other side notices it, lets a rope down over the wall, and lets you out of the room."
     },
     "eat": {
         "successRoll": 11,
