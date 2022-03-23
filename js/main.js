@@ -65,11 +65,11 @@ const apple = {
     "study": {
         "successRoll": 16,
         "moderateRoll": 9,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
+        "critical failure": "You attempt to use your brain on this apple. You place the apple on the table, look upon it, and slam your head down.You don't know anything about it, but you have applesauce and a knot on your head now.",
+        "failure": "You thought you knew something about apples, but you can't even figure out if it is a fruit or a vegetable.",
+        "moderate": "It's a nice apple. Shiny, fresh, edible.",
+        "success": "This is a pink lady apple. It has a sweet-tart flavor, and is a favorite of the programmer. Maybe if you ate it, it would help you out!",
+        "critical success": "As you inspect the apple, you find a weird hole in it. You break the apple in half to find a key inside!"
     },
     "move": {
         "successRoll": 14,
