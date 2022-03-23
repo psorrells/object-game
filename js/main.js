@@ -60,49 +60,89 @@ const chair = {
     },
 }
 
-//Chair
+//Apple
 const apple = {
     "study": {
         "successRoll": 16,
         "moderateRoll": 9,
-        "critical failure": "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
-        "failure": "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
-        "moderate": "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
-        "success": "The chair has 4 legs. A truly ingenious design, it seems to have no wobble to it. A very sturdy chair like this could be moved against a window to get out.",
-        "critical success": "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!"
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
     },
     "move": {
         "successRoll": 14,
         "moderateRoll": 7,
-        "critical failure": "You try to pick up the chair and break your hip. Should've stretched first.",
-        "failure": "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
-        "moderate": "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
-        "success": "You move the chair with ease, placing it squarely beneath the window to get out.",
-        "critical success": "You throw the chair as hard as you can. It breaks the wall, and you are free."
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
     },
     "eat": {
         "successRoll": 11,
         "moderateRoll": 6,
-        "critical failure": "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
-        "failure": "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
-        "moderate": "You try to eat the chair, but it is solid oak. You can't eat it.",
-        "success": "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
-        "critical success": "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here."
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
     },
     "jump on": {
         "successRoll": 19,
         "moderateRoll": 14,
-        "critical failure": "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
-        "failure": "You try to jump on the chair, but are unable to get a good height and miss.",
-        "moderate": "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
-        "success": "You jump on the chair with finesse. This was an easy task for you.",
-        "critical success": "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
+    },
+}
+
+//Bookcase
+const bookcase = {
+    "study": {
+        "successRoll": 16,
+        "moderateRoll": 9,
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
+    },
+    "move": {
+        "successRoll": 14,
+        "moderateRoll": 7,
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
+    },
+    "eat": {
+        "successRoll": 11,
+        "moderateRoll": 6,
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
+    },
+    "jump on": {
+        "successRoll": 19,
+        "moderateRoll": 14,
+        "critical failure": "",
+        "failure": "",
+        "moderate": "",
+        "success": "",
+        "critical success": ""
     },
 }
 
 
 //List of all objects in the scene
-const interactables = {"chair": chair, "apple": apple}
+const interactables = {"chair": chair, "apple": apple, "bookcase": bookcase}
 
 for (object in interactables) {
     Object.assign(interactables[object],standardObject)
