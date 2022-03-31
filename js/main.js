@@ -5,10 +5,35 @@ const actions = {
     "jump on": "dexterity"
 }
 
+const interactions = Object.keys(actions)
+
 let person1;
 let currentObject;
 
 /* OBJECTS */
+
+/*NEW OBJECT CLASS*/
+class Interactable {
+    constructor(obj) {
+        this.name = obj
+        for (i of interactions) {
+            this[i] = new ResultSet(i,obj)
+        }
+    }
+
+    /* NEW RESULT CLASS */
+    ResultSet(actionTaken, obj) {
+    
+            this["successRoll"] = 16
+            this["moderateRoll"] = 9
+            this["critical failure"] = `You critically fail to ${actionTaken} the ${obj}.`
+            this["failure"] = `You fail to ${actionTaken} the ${obj}.`
+            this["moderate"] = `You try to ${actionTaken} the ${obj}.`
+            this["success"] = `You ${actionTaken} the ${obj}.`
+            this["critical success"] = `You ${actionTaken} the ${obj} well.`
+    }
+}
+/*OLD*/
 //Standard Object stuff
 const standardObject = {
     interact(person, action) {
