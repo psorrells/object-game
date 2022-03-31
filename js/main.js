@@ -10,8 +10,11 @@ const interactions = Object.keys(actions)
 //List of all interactable objects in the scene
 const interactables = {}
 
+//List of all Characters in the game
+const characters = []
 
-let person1;
+
+let currentCharacter;
 let currentObject;
 
 /* OBJECTS */
@@ -56,7 +59,6 @@ class Interactable {
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
         let check = doAbilityCheck(person[actions[action]],m,s)
-        console.log(check)
         alert(this[action][check])
     }
 
@@ -153,23 +155,48 @@ apple.adjustResultSet(
 //Bookcase
 const bookcase = new Interactable("bookcase")
 
-//Making Character
+//Making Characters
+
+class Character {
+    constructor(name,i,s,c,d) {
+        this.name = name
+        this.intelligence = i - 2
+        this.strength = s - 2
+        this.constitution = c - 2
+        this.dexterity = d - 2
+        this.location = 'floor'
+        this.position = 'standing'
+    }
+}
 
 document.querySelector("#submit-character").addEventListener('click', createACharacter)
 
 function createACharacter() {
+    let name = document.querySelector("#name").value
     const i = parseInt(document.querySelector("#int").value)
     const s = parseInt(document.querySelector("#str").value)
     const c = parseInt(document.querySelector("#con").value)
     const d = parseInt(document.querySelector("#dex").value)
+    if (!name.trim()) {
+        name = `Nameless Drifter #${Math.ceil(Math.random()*1000)}`
+    }
     if (i + s + c + d != 10 || i < 0 || s < 0 || c < 0 || d < 0 || i > 10 || s > 10 || c > 10 || d > 10) {
         alert("Please give your charcter positive integer values that sum up to 10 where none are greater than 10 or less than 0")
     } else {
-        person1 = makePerson(i - 2,s - 2,c - 2,d - 2)
-        alert(`Character created! your stats are int:${person1.intelligence} str:${person1.strength} con:${person1.constitution} dex:${person1.dexterity}`)
-        document.querySelector("#create-character").classList.add("hidden")
-        document.querySelector("#room").classList.remove("hidden")
+        currentCharacter = new Character(name,i,s,c,d)
+        characters.push(currentCharacter)
+        alert(`Character created! ${currentCharacter.name}'s stats are int:${currentCharacter.intelligence} str:${currentCharacter.strength} con:${currentCharacter.constitution} dex:${currentCharacter.dexterity}`)
+        document.querySelectorAll("input").forEach(input => input.value = "")
     }
+}
+
+//Start the Game
+document.querySelector("#start").addEventListener('click',startGame)
+
+function startGame() {
+    currentCharacter = characters[0]
+    document.querySelector("#create-character").classList.add("hidden")
+    document.querySelector("#room").classList.remove("hidden")
 }
 
 function makePerson(i,s,c,d) {
@@ -228,6 +255,8 @@ function startInteraction(obj) {
 function sendResponse(){
     const select = document.getElementById("interact-options")
     const action = select.options[select.selectedIndex].value
-    interactables[currentObject].interact(person1,action)
+    interactables[currentObject].interact(currentCharacter,action)
     document.querySelector("#interact-screen").classList.add("hidden")
+    currentCharacter = characters[(characters.findIndex(c => c.name === currentCharacter.name) + 1)%(characters.length)]
+    console.log(`Up Next: ${currentCharacter.name}`)
 }
