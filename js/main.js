@@ -25,6 +25,8 @@ class Interactable {
         for (let i of interactions) {
             this[i] = new ResultSet(i,obj)
         }
+        //add object to the list of objects
+        interactables[obj] = this
         //Result set object maker with defaults
         function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
                 this["successRoll"] = s;
@@ -63,9 +65,10 @@ class Interactable {
 
 //Chair
 const chair = new Interactable("chair")
-interactables["chair"] = chair
 chair.adjustResultSet(
     actionTaken = "study",
+    s = 16,
+    m = 9,
     critFail = "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
     fail = "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
     mid = "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
@@ -87,6 +90,7 @@ chair.adjustResultSet(
 chair.adjustResultSet(
     actionTaken = "eat",
     s = 18,
+    m = 9,
     critFail = "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
     fail = "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
     mid = "You try to eat the chair, but it is solid oak. You can't eat it.",
@@ -96,16 +100,16 @@ chair.adjustResultSet(
 
 chair.adjustResultSet(
     actionTaken = "jump on",
+    s = 16,
+    m = 9,
     critFail = "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
     fail = "You try to jump on the chair, but are unable to get a good height and miss.",
     mid = "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
     succ = "You jump on the chair with finesse. This was an easy task for you.",
     critSucc = "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
 )
-
 //Apple
 const apple = new Interactable("apple")
-interactables["apple"] = apple
 apple.adjustResultSet(
     actionTaken = "study",
     s =  16,
@@ -146,10 +150,8 @@ apple.adjustResultSet(
     succ = "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
     critSucc = "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls."
     )
-
 //Bookcase
 const bookcase = new Interactable("bookcase")
-interactables["bookcase"] = bookcase
 
 //Making Character
 
