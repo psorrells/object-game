@@ -7,6 +7,10 @@ const actions = {
 
 const interactions = Object.keys(actions)
 
+//List of all interactable objects in the scene
+const interactables = {}
+
+
 let person1;
 let currentObject;
 
@@ -21,6 +25,9 @@ class Interactable {
         for (let i of interactions) {
             this[i] = new ResultSet(i,obj)
         }
+
+        //add item to the list of interactables
+        interactables[obj] = this
 
         //Result set object maker with defaults
         class ResultSet {
@@ -197,53 +204,7 @@ apple.adjustResultSet(
     )
 
 //Bookcase
-const bookcase = {
-    "study": {
-        "successRoll": 16,
-        "moderateRoll": 9,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
-    },
-    "move": {
-        "successRoll": 14,
-        "moderateRoll": 7,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
-    },
-    "eat": {
-        "successRoll": 11,
-        "moderateRoll": 6,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
-    },
-    "jump on": {
-        "successRoll": 19,
-        "moderateRoll": 14,
-        "critical failure": "",
-        "failure": "",
-        "moderate": "",
-        "success": "",
-        "critical success": ""
-    },
-}
-
-
-//List of all objects in the scene
-const interactables = {"chair": chair, "apple": apple, "bookcase": bookcase}
-
-for (object in interactables) {
-    Object.assign(interactables[object],standardObject)
-}
-
+const bookcase = new Interactable("bookcase")
 
 //Making Character
 
