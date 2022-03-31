@@ -12,27 +12,90 @@ let currentObject;
 
 /* OBJECTS */
 
+
+
 /*NEW OBJECT CLASS*/
 class Interactable {
     constructor(obj) {
         this.name = obj
-        for (i of interactions) {
+        for (let i of interactions) {
             this[i] = new ResultSet(i,obj)
+        }
+
+        //Result set object maker with defaults
+        function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
+            this["successRoll"] = s
+            this["moderateRoll"] = m
+            this["critical failure"] = critFail || `You critically fail to ${actionTaken} the ${obj}.`
+            this["failure"] = fail || `You fail to ${actionTaken} the ${obj}.`
+            this["moderate"] = mid || `You try to ${actionTaken} the ${obj}.`
+            this["success"] = succ || `You ${actionTaken} the ${obj}.`
+            this["critical success"] = critSucc || `You ${actionTaken} the ${obj} well.`
         }
     }
 
-    /* NEW RESULT CLASS */
-    ResultSet(actionTaken, obj) {
-    
-            this["successRoll"] = 16
-            this["moderateRoll"] = 9
-            this["critical failure"] = `You critically fail to ${actionTaken} the ${obj}.`
-            this["failure"] = `You fail to ${actionTaken} the ${obj}.`
-            this["moderate"] = `You try to ${actionTaken} the ${obj}.`
-            this["success"] = `You ${actionTaken} the ${obj}.`
-            this["critical success"] = `You ${actionTaken} the ${obj} well.`
+    //Change the values of a result set
+    adjustResultSet(actionTaken, s = null, m = null, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
+        (s != null) && (this[actionTaken][successRoll] = s);
+        (m != null) && (this[actionTaken][moderateRoll] = m);
+        (critFail != null) && (this[actionTaken]["critical failure"] = critFail);
+        (fail != null) && (this[actionTaken]["failure"] = fail);
+        (mid != null) && (this[actionTaken]["moderate"] = mid);
+        (succ != null) && (this[actionTaken]["success"] = succ);
+        (critSucc != null) && (this[actionTaken]["critical success"] = critSucc);
     }
+
+    //Ability Checking
+
+    calculateRoll(ability) {
+        let natRoll = Math.ceil(Math.random() * 20)
+        let critStatus;
+        switch (natRoll) {
+            case 20:
+                critStatus = "success";
+                break;
+            case 1:
+                critStatus = "failure";
+                break;
+            default:
+                critStatus = "none";
+                break;
+        }
+        let thisCheck = {
+            roll: natRoll + ability,
+            crit: critStatus
+        }
+        return thisCheck
+    }
+
+    doAbilityCheck(ability, moderateValue, successValue) {
+        let abilityCheck = calculateRoll(ability)
+        if (abilityCheck.crit === "success") {
+            return "critical success"
+        } else if (abilityCheck.crit === "failure") {
+            return "critical failure"
+        } else if (abilityCheck.roll < moderateValue) {
+            return "failure"
+        } else if (abilityCheck.roll < successValue) {
+            return "moderate"
+        } else {
+            return "success"
+        }
+    }
+
+    //Perform an interaction with an object
+
+    interact(person, action) {
+        let s = this[action]["successRoll"]
+        let m = this[action]["moderateRoll"]
+        let check = doAbilityCheck(person[actions[action]],m,s)
+        console.log(check)
+        alert(this[action][check])
+    }
+
+
 }
+
 /*OLD*/
 //Standard Object stuff
 const standardObject = {
@@ -46,44 +109,51 @@ const standardObject = {
 }
 
 //Chair
-const chair = {
-    "study": {
-        "successRoll": 16,
-        "moderateRoll": 9,
-        "critical failure": "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
-        "failure": "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
-        "moderate": "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
-        "success": "The chair has 4 legs. A truly ingenious design, it seems to have no wobble to it. A very sturdy chair like this could be moved against a window to get out.",
-        "critical success": "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!"
-    },
-    "move": {
-        "successRoll": 14,
-        "moderateRoll": 7,
-        "critical failure": "You try to pick up the chair and break your hip. Should've stretched first.",
-        "failure": "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
-        "moderate": "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
-        "success": "You move the chair with ease, placing it squarely beneath the window to get out.",
-        "critical success": "You throw the chair as hard as you can. It breaks the wall, and you are free."
-    },
-    "eat": {
-        "successRoll": 18,
-        "moderateRoll": 9,
-        "critical failure": "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
-        "failure": "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
-        "moderate": "You try to eat the chair, but it is solid oak. You can't eat it.",
-        "success": "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
-        "critical success": "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here."
-    },
-    "jump on": {
-        "successRoll": 16,
-        "moderateRoll": 9,
-        "critical failure": "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
-        "failure": "You try to jump on the chair, but are unable to get a good height and miss.",
-        "moderate": "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
-        "success": "You jump on the chair with finesse. This was an easy task for you.",
-        "critical success": "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
-    },
-}
+
+const chair = new Interactable("chair")
+chair.adjustResultSet(
+    actionTaken = "study",
+    s = 16,
+    m = 9,
+    critFail = "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
+    fail = "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
+    mid = "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
+    succ = "The chair has 4 legs. A truly ingenious design, it seems to have no wobble to it. A very sturdy chair like this could be moved against a window to get out.",
+    critSucc = "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!"
+)
+
+chair.adjustResultSet(
+    actionTaken = "move",
+    s = 14,
+    m = 7,
+    critFail = "You try to pick up the chair and break your hip. Should've stretched first.",
+    fail = "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
+    mid = "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
+    succ = "You move the chair with ease, placing it squarely beneath the window to get out.",
+    critSucc = "You throw the chair as hard as you can. It breaks the wall, and you are free."
+)
+
+chair.adjustResultSet(
+    actionTaken = "eat",
+    s = 18,
+    m = 9,
+    critFail = "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
+    fail = "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
+    mid = "You try to eat the chair, but it is solid oak. You can't eat it.",
+    succ = "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
+    critSucc = "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here."
+)
+
+chair.adjustResultSet(
+    actionTaken = "jump on",
+    s = 16,
+    m = 9,
+    critFail = "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
+    fail = "You try to jump on the chair, but are unable to get a good height and miss.",
+    mid = "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
+    succ = "You jump on the chair with finesse. This was an easy task for you.",
+    critSucc = "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
+)
 
 //Apple
 const apple = {
