@@ -23,21 +23,23 @@ class Interactable {
         }
 
         //Result set object maker with defaults
-        function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
-            this["successRoll"] = s
-            this["moderateRoll"] = m
-            this["critical failure"] = critFail || `You critically fail to ${actionTaken} the ${obj}.`
-            this["failure"] = fail || `You fail to ${actionTaken} the ${obj}.`
-            this["moderate"] = mid || `You try to ${actionTaken} the ${obj}.`
-            this["success"] = succ || `You ${actionTaken} the ${obj}.`
-            this["critical success"] = critSucc || `You ${actionTaken} the ${obj} well.`
+        class ResultSet {
+            constructor(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
+                this["successRoll"] = s;
+                this["moderateRoll"] = m;
+                this["critical failure"] = critFail || `You critically fail to ${actionTaken} the ${obj}.`;
+                this["failure"] = fail || `You fail to ${actionTaken} the ${obj}.`;
+                this["moderate"] = mid || `You try to ${actionTaken} the ${obj}.`;
+                this["success"] = succ || `You ${actionTaken} the ${obj}.`;
+                this["critical success"] = critSucc || `You ${actionTaken} the ${obj} well.`;
+            }
         }
     }
 
     //Change the values of a result set
     adjustResultSet(actionTaken, s = null, m = null, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
-        (s != null) && (this[actionTaken][successRoll] = s);
-        (m != null) && (this[actionTaken][moderateRoll] = m);
+        (s != null) && (this[actionTaken]["successRoll"] = s);
+        (m != null) && (this[actionTaken]["moderateRoll"] = m);
         (critFail != null) && (this[actionTaken]["critical failure"] = critFail);
         (fail != null) && (this[actionTaken]["failure"] = fail);
         (mid != null) && (this[actionTaken]["moderate"] = mid);
@@ -113,8 +115,6 @@ const standardObject = {
 const chair = new Interactable("chair")
 chair.adjustResultSet(
     actionTaken = "study",
-    s = 16,
-    m = 9,
     critFail = "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
     fail = "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
     mid = "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
@@ -136,7 +136,6 @@ chair.adjustResultSet(
 chair.adjustResultSet(
     actionTaken = "eat",
     s = 18,
-    m = 9,
     critFail = "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
     fail = "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
     mid = "You try to eat the chair, but it is solid oak. You can't eat it.",
@@ -146,8 +145,6 @@ chair.adjustResultSet(
 
 chair.adjustResultSet(
     actionTaken = "jump on",
-    s = 16,
-    m = 9,
     critFail = "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
     fail = "You try to jump on the chair, but are unable to get a good height and miss.",
     mid = "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
@@ -156,44 +153,48 @@ chair.adjustResultSet(
 )
 
 //Apple
-const apple = {
-    "study": {
-        "successRoll": 16,
-        "moderateRoll": 9,
-        "critical failure": "You attempt to use your brain on this apple. You place the apple in front of you, look upon it, and slam your head down. You don't know anything about it, but you have applesauce and a knot on your head now.",
-        "failure": "You thought you knew something about apples, but you can't even figure out if it is a fruit or a vegetable.",
-        "moderate": "It's a nice apple. Shiny, fresh, edible.",
-        "success": "This is a pink lady apple. It has a sweet-tart flavor, and is a favorite of the programmer. Maybe if you ate it, it would help you out!",
-        "critical success": "As you inspect the apple, you find a weird hole in it. You break the apple in half to find a key inside!"
-    },
-    "move": {
-        "successRoll": 14,
-        "moderateRoll": 7,
-        "critical failure": "You try to grab the apple to move it, but your clumsy hands just smoosh it between your fingers. I hope you like applesauce and slimy hands.",
-        "failure": "You try to move the apple. You pick it up, but you don't know where to put it down, so you set it back in the same spot.",
-        "moderate": "You move the apple a little to the left. There, nice.",
-        "success": "You roll the apple across the floor, and notice a slight grade to ground. What does this mean? Where are you?",
-        "critical success": "You throw the apple over the wall. Someone on the other side notices it, lets a rope down over the wall, and lets you out of the room."
-    },
-    "eat": {
-        "successRoll": 11,
-        "moderateRoll": 6,
-        "critical failure": "You try to eat the apple, but choke on a seed. Game over.",
-        "failure": "You try to eat the apple, but don't really like apples, so you put it back down.",
-        "moderate": "You eat the apple. It's pretty delicious.",
-        "success": "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
-        "critical success": "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls."
-    },
-    "jump on": {
-        "successRoll": 19,
-        "moderateRoll": 14,
-        "critical failure": "You try to jump on the apple, but slip on it instead and sprain your knee. You can't get up for 30 minutes.",
-        "failure": "You try to jump on the apple, but it is too small to aim for, and you can't even land on it.",
-        "moderate": "You try to jump on the apple, but can't quite get your balance, and it slips from under you.",
-        "success": "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
-        "critical success": "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls."
-    },
-}
+const apple = new Interactable("apple")
+
+apple.adjustResultSet(
+    actionTaken = "study",
+    s =  16,
+    m = 9,
+    critFail = "You attempt to use your brain on this apple. You place the apple in front of you, look upon it, and slam your head down. You don't know anything about it, but you have applesauce and a knot on your head now.",
+    fail = "You thought you knew something about apples, but you can't even figure out if it is a fruit or a vegetable.",
+    mid = "It's a nice apple. Shiny, fresh, edible.",
+    succ = "This is a pink lady apple. It has a sweet-tart flavor, and is a favorite of the programmer. Maybe if you ate it, it would help you out!",
+    critSucc = "As you inspect the apple, you find a weird hole in it. You break the apple in half to find a key inside!"
+)
+apple.adjustResultSet(
+    actionTaken = "move",
+    s = 14,
+    m = 7,
+    critFail = "You try to grab the apple to move it, but your clumsy hands just smoosh it between your fingers. I hope you like applesauce and slimy hands.",
+    fail = "You try to move the apple. You pick it up, but you don't know where to put it down, so you set it back in the same spot.",
+    mid = "You move the apple a little to the left. There, nice.",
+    succ = "You roll the apple across the floor, and notice a slight grade to ground. What does this mean? Where are you?",
+    critSucc = "You throw the apple over the wall. Someone on the other side notices it, lets a rope down over the wall, and lets you out of the room."
+    )
+apple.adjustResultSet(
+    actionTaken = "eat",
+    s = 11,
+    m = 6,
+    critFail = "You try to eat the apple, but choke on a seed. Game over.",
+    fail = "You try to eat the apple, but don't really like apples, so you put it back down.",
+    mid = "You eat the apple. It's pretty delicious.",
+    succ = "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
+    critSucc = "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls."
+    )
+apple.adjustResultSet(
+    actionTaken = "jump on",
+    s = 19,
+    m = 14,
+    critFail = "You try to jump on the apple, but slip on it instead and sprain your knee. You can't get up for 30 minutes.",
+    fail = "You try to jump on the apple, but it is too small to aim for, and you can't even land on it.",
+    mid = "You try to jump on the apple, but can't quite get your balance, and it slips from under you.",
+    succ = "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
+    critSucc = "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls."
+    )
 
 //Bookcase
 const bookcase = {
