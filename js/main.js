@@ -25,13 +25,8 @@ class Interactable {
         for (let i of interactions) {
             this[i] = new ResultSet(i,obj)
         }
-
-        //add item to the list of interactables
-        interactables[obj] = this
-
         //Result set object maker with defaults
-        class ResultSet {
-            constructor(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
+        function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
                 this["successRoll"] = s;
                 this["moderateRoll"] = m;
                 this["critical failure"] = critFail || `You critically fail to ${actionTaken} the ${obj}.`;
@@ -39,7 +34,6 @@ class Interactable {
                 this["moderate"] = mid || `You try to ${actionTaken} the ${obj}.`;
                 this["success"] = succ || `You ${actionTaken} the ${obj}.`;
                 this["critical success"] = critSucc || `You ${actionTaken} the ${obj} well.`;
-            }
         }
     }
 
@@ -52,44 +46,6 @@ class Interactable {
         (mid != null) && (this[actionTaken]["moderate"] = mid);
         (succ != null) && (this[actionTaken]["success"] = succ);
         (critSucc != null) && (this[actionTaken]["critical success"] = critSucc);
-    }
-
-    //Ability Checking
-
-    calculateRoll(ability) {
-        let natRoll = Math.ceil(Math.random() * 20)
-        let critStatus;
-        switch (natRoll) {
-            case 20:
-                critStatus = "success";
-                break;
-            case 1:
-                critStatus = "failure";
-                break;
-            default:
-                critStatus = "none";
-                break;
-        }
-        let thisCheck = {
-            roll: natRoll + ability,
-            crit: critStatus
-        }
-        return thisCheck
-    }
-
-    doAbilityCheck(ability, moderateValue, successValue) {
-        let abilityCheck = calculateRoll(ability)
-        if (abilityCheck.crit === "success") {
-            return "critical success"
-        } else if (abilityCheck.crit === "failure") {
-            return "critical failure"
-        } else if (abilityCheck.roll < moderateValue) {
-            return "failure"
-        } else if (abilityCheck.roll < successValue) {
-            return "moderate"
-        } else {
-            return "success"
-        }
     }
 
     //Perform an interaction with an object
@@ -105,21 +61,9 @@ class Interactable {
 
 }
 
-/*OLD*/
-//Standard Object stuff
-const standardObject = {
-    interact(person, action) {
-        let s = this[action]["successRoll"]
-        let m = this[action]["moderateRoll"]
-        let check = doAbilityCheck(person[actions[action]],m,s)
-        console.log(check)
-        alert(this[action][check])
-    }
-}
-
 //Chair
-
 const chair = new Interactable("chair")
+interactables["chair"] = chair
 chair.adjustResultSet(
     actionTaken = "study",
     critFail = "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
@@ -161,7 +105,7 @@ chair.adjustResultSet(
 
 //Apple
 const apple = new Interactable("apple")
-
+interactables["apple"] = apple
 apple.adjustResultSet(
     actionTaken = "study",
     s =  16,
@@ -205,6 +149,7 @@ apple.adjustResultSet(
 
 //Bookcase
 const bookcase = new Interactable("bookcase")
+interactables["bookcase"] = bookcase
 
 //Making Character
 
@@ -228,7 +173,6 @@ function createACharacter() {
 function makePerson(i,s,c,d) {
     return {intelligence: i, strength: s, constitution: c, dexterity: d, location: 'floor'}
 }
-
 
 //Ability Checking
 
