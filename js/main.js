@@ -30,32 +30,49 @@ class Interactable {
         function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
                 this["successRoll"] = s;
                 this["moderateRoll"] = m;
-                this["critical failure"] = critFail || `You critically fail to ${actionTaken} the ${obj}.`;
-                this["failure"] = fail || `You fail to ${actionTaken} the ${obj}.`;
-                this["moderate"] = mid || `You try to ${actionTaken} the ${obj}.`;
-                this["success"] = succ || `You ${actionTaken} the ${obj}.`;
-                this["critical success"] = critSucc || `You ${actionTaken} the ${obj} well.`;
+                this["critical failure"] = {
+                    result: critFail || `You critically fail to ${actionTaken} the ${obj}.`,
+                    changes: {}};
+                this["failure"] = {
+                    result: fail || `You fail to ${actionTaken} the ${obj}.`,
+                    changes: {}};
+                this["moderate"] = {
+                    result: mid || `You try to ${actionTaken} the ${obj}.`,
+                    changes: {}};
+                this["success"] = {
+                    result: succ || `You ${actionTaken} the ${obj}.`,
+                    changes: {}};
+                this["critical success"] = {
+                    result: critSucc || `You ${actionTaken} the ${obj} well.`,
+                    changes: {}
+                };
         }
     }
 
     //Change the values of a result set
-    adjustResultSet(actionTaken, s = null, m = null, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
+    adjustResultSet(actionTaken, critFail = null, cFChange = null, fail = null, fChange = null, mid = null, mChange = null, succ = null, sChange = null, critSucc = null, cSChange = null, s = null, m = null) {
         (s != null) && (this[actionTaken]["successRoll"] = s);
         (m != null) && (this[actionTaken]["moderateRoll"] = m);
-        (critFail != null) && (this[actionTaken]["critical failure"] = critFail);
-        (fail != null) && (this[actionTaken]["failure"] = fail);
-        (mid != null) && (this[actionTaken]["moderate"] = mid);
-        (succ != null) && (this[actionTaken]["success"] = succ);
-        (critSucc != null) && (this[actionTaken]["critical success"] = critSucc);
+        (critFail != null) && (this[actionTaken]["critical failure"]["result"] = critFail);
+        (critFail != null) && (this[actionTaken]["critical failure"]["changes"] = cFChange);
+        (fail != null) && (this[actionTaken]["failure"]["result"] = fail);
+        (fail != null) && (this[actionTaken]["failure"]["changes"] = fChange);
+        (mid != null) && (this[actionTaken]["moderate"]["result"] = mid);
+        (mid != null) && (this[actionTaken]["moderate"]["changes"] = mChange);
+        (succ != null) && (this[actionTaken]["success"]["result"] = succ);
+        (succ != null) && (this[actionTaken]["success"]["changes"] = sChange);
+        (critSucc != null) && (this[actionTaken]["critical success"]["result"] = critSucc);
+        (critSucc != null) && (this[actionTaken]["critical success"]["changes"] = cSChange);
     }
 
     //Perform an interaction with an object
 
-    interact(person, action) {
+    interact(character, action) {
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
-        let check = doAbilityCheck(person[actions[action]],m,s)
-        alert(this[action][check])
+        let check = doAbilityCheck(character[actions[action]],m,s)
+        character.update(this[action][check]["changes"])
+        alert(this[action][check]["result"])
     }
 
 
@@ -65,88 +82,122 @@ class Interactable {
 const chair = new Interactable("chair")
 chair.adjustResultSet(
     actionTaken = "study",
-    s = 16,
-    m = 9,
     critFail = "You have no idea how this works. As you attempt to study the chair, you pull a screw loose and the whole chair collapses.",
+    cFChange = {"intelligence": "+-1"},
     fail = "You can't figure out anything about the chair. You sit on it and ponder why sit on a chair, when you could just sit on the floor? Are chairs useful?",
+    fChange = {"position": "sitting"},
     mid = "It's a solid wooden chair. Maybe if you did something else with it, you could get out of here.",
+    mChange = null,
     succ = "The chair has 4 legs. A truly ingenious design, it seems to have no wobble to it. A very sturdy chair like this could be moved against a window to get out.",
-    critSucc = "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!"
-)
+    sChange = null,
+    critSucc = "You look closely at the chair, as you assess all the angles and configurations, you realize there's a pattern on the legs. You turn each leg one by one, and look! The chair starts hovering. you can fly your way out of here!",
+    cSChange = {"status": "free"}
+    )
 
 chair.adjustResultSet(
     actionTaken = "move",
+    critFail = "You try to pick up the chair and break your hip. Should've stretched first.",
+    null,
+    fail = "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
+    null,
+    mid = "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
+    null,
+    succ = "You move the chair with ease, placing it squarely beneath the window to get out.",
+    null,
+    critSucc = "You throw the chair as hard as you can. It breaks the wall, and you are free.",
+    null,
     s = 14,
     m = 7,
-    critFail = "You try to pick up the chair and break your hip. Should've stretched first.",
-    fail = "You try to pick up the chair, but it's much heavier than you assumed. You can only move it a few inches.",
-    mid = "You move the chair. It's pretty solid, and surprisingly heavy, but you manage to move it to the window.",
-    succ = "You move the chair with ease, placing it squarely beneath the window to get out.",
-    critSucc = "You throw the chair as hard as you can. It breaks the wall, and you are free."
 )
 
 chair.adjustResultSet(
     actionTaken = "eat",
+    critFail = "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
+    null,
+    fail = "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
+    null,
+    mid = "You try to eat the chair, but it is solid oak. You can't eat it.",
+    null,
+    succ = "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
+    null,
+    critSucc = "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here.",
+    null,
     s = 18,
     m = 9,
-    critFail = "You try to take a huge bite out of that delicious looking solid oak chair. You crack your teeth.",
-    fail = "Somehow, you manage to bite off a few splinters of wood, but those splinters don't feel so good on the way down.",
-    mid = "You try to eat the chair, but it is solid oak. You can't eat it.",
-    succ = "You try to eat the chair, and manage to chew a few shavings, but you spit them out.",
-    critSucc = "You eat the chair. Your stomach knows no bounds. The chair is gone, but you are able to eat the wall and find your way out of here."
 )
 
 chair.adjustResultSet(
     actionTaken = "jump on",
-    s = 16,
-    m = 9,
     critFail = "You try to jump on the chair, but as your foot hits the edge, it shatters. You fall on the floor and cry for hours.",
+    null,
     fail = "You try to jump on the chair, but are unable to get a good height and miss.",
+    null,
     mid = "You try to jump on the chair. It wobbles for a second as your first foot lands, but stabilizes.",
+    null,
     succ = "You jump on the chair with finesse. This was an easy task for you.",
-    critSucc = "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in."
-)
+    null,
+    critSucc = "You jump on the chair with a jump so powerful that it shatters the earth beneath you and frees you from the walls you are confined in.",
+    null
+    )
 //Apple
 const apple = new Interactable("apple")
 apple.adjustResultSet(
     actionTaken = "study",
-    s =  16,
-    m = 9,
     critFail = "You attempt to use your brain on this apple. You place the apple in front of you, look upon it, and slam your head down. You don't know anything about it, but you have applesauce and a knot on your head now.",
+    null,
     fail = "You thought you knew something about apples, but you can't even figure out if it is a fruit or a vegetable.",
+    null,
     mid = "It's a nice apple. Shiny, fresh, edible.",
+    null,
     succ = "This is a pink lady apple. It has a sweet-tart flavor, and is a favorite of the programmer. Maybe if you ate it, it would help you out!",
-    critSucc = "As you inspect the apple, you find a weird hole in it. You break the apple in half to find a key inside!"
-)
+    null,
+    critSucc = "As you inspect the apple, you find a weird hole in it. You break the apple in half to find a key inside!",
+    null
+    )
 apple.adjustResultSet(
     actionTaken = "move",
+    critFail = "You try to grab the apple to move it, but your clumsy hands just smoosh it between your fingers. I hope you like applesauce and slimy hands.",
+    null,
+    fail = "You try to move the apple. You pick it up, but you don't know where to put it down, so you set it back in the same spot.",
+    null,
+    mid = "You move the apple a little to the left. There, nice.",
+    null,
+    succ = "You roll the apple across the floor, and notice a slight grade to ground. What does this mean? Where are you?",
+    null,
+    critSucc = "You throw the apple over the wall. Someone on the other side notices it, lets a rope down over the wall, and lets you out of the room.",
+    null,
     s = 14,
     m = 7,
-    critFail = "You try to grab the apple to move it, but your clumsy hands just smoosh it between your fingers. I hope you like applesauce and slimy hands.",
-    fail = "You try to move the apple. You pick it up, but you don't know where to put it down, so you set it back in the same spot.",
-    mid = "You move the apple a little to the left. There, nice.",
-    succ = "You roll the apple across the floor, and notice a slight grade to ground. What does this mean? Where are you?",
-    critSucc = "You throw the apple over the wall. Someone on the other side notices it, lets a rope down over the wall, and lets you out of the room."
     )
 apple.adjustResultSet(
     actionTaken = "eat",
+    critFail = "You try to eat the apple, but choke on a seed. Game over.",
+    null,
+    fail = "You try to eat the apple, but don't really like apples, so you put it back down.",
+    null,
+    mid = "You eat the apple. It's pretty delicious.",
+    null,
+    succ = "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
+    null,
+    critSucc = "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls.",
+    null,
     s = 11,
     m = 6,
-    critFail = "You try to eat the apple, but choke on a seed. Game over.",
-    fail = "You try to eat the apple, but don't really like apples, so you put it back down.",
-    mid = "You eat the apple. It's pretty delicious.",
-    succ = "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
-    critSucc = "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls."
     )
 apple.adjustResultSet(
     actionTaken = "jump on",
+    critFail = "You try to jump on the apple, but slip on it instead and sprain your knee. You can't get up for 30 minutes.",
+    null,
+    fail = "You try to jump on the apple, but it is too small to aim for, and you can't even land on it.",
+    null,
+    mid = "You try to jump on the apple, but can't quite get your balance, and it slips from under you.",
+    null,
+    succ = "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
+    null,
+    critSucc = "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls.",
+    null,
     s = 19,
     m = 14,
-    critFail = "You try to jump on the apple, but slip on it instead and sprain your knee. You can't get up for 30 minutes.",
-    fail = "You try to jump on the apple, but it is too small to aim for, and you can't even land on it.",
-    mid = "You try to jump on the apple, but can't quite get your balance, and it slips from under you.",
-    succ = "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
-    critSucc = "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls."
     )
 //Bookcase
 const bookcase = new Interactable("bookcase")
@@ -166,8 +217,12 @@ class Character {
     }
 
     update(changes) {
-        for (property in changes) {
-            this[property] = changes[property]
+        for (let property in changes) {
+            if (changes[property].includes("+")) {
+                this[property] += parseInt(changes[property].slice(1))
+            } else {
+                this[property] = changes[property]
+            }
         }
     }
 }
