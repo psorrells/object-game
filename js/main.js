@@ -190,6 +190,10 @@ function createACharacter() {
 document.querySelector("#start").addEventListener('click',startGame)
 
 function startGame() {
+    if (!characters[0]) {
+        alert("please create at least one character!")
+        throw new Error('no character created')
+    }
     currentCharacter = characters[0]
     document.querySelector("#create-character").classList.add("hidden")
     document.querySelector("#room").classList.remove("hidden")
