@@ -5,8 +5,6 @@ const actions = {
     "jump on": "dexterity"
 }
 
-const interactions = Object.keys(actions)
-
 //List of all interactable objects in the scene
 const interactables = {}
 
@@ -19,13 +17,11 @@ let currentObject;
 
 /* OBJECTS */
 
-
-
-/*NEW OBJECT CLASS*/
+/*INTERACTABLE CLASS*/
 class Interactable {
     constructor(obj) {
         this.name = obj
-        for (let i of interactions) {
+        for (let i of Object.keys(actions)) {
             this[i] = new ResultSet(i,obj)
         }
         //add object to the list of objects
@@ -197,6 +193,7 @@ function startGame() {
     currentCharacter = characters[0]
     document.querySelector("#create-character").classList.add("hidden")
     document.querySelector("#room").classList.remove("hidden")
+    updateRoom()
 }
 
 function makePerson(i,s,c,d) {
@@ -259,4 +256,9 @@ function sendResponse(){
     document.querySelector("#interact-screen").classList.add("hidden")
     currentCharacter = characters[(characters.findIndex(c => c.name === currentCharacter.name) + 1)%(characters.length)]
     console.log(`Up Next: ${currentCharacter.name}`)
+    updateRoom()
+}
+
+function updateRoom() {
+    document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
 }
