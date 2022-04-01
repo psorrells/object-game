@@ -162,6 +162,13 @@ class Character {
         this.dexterity = d - 2
         this.location = 'floor'
         this.position = 'standing'
+        this.status = 'healthy'
+    }
+
+    update(changes) {
+        for (property in changes) {
+            this[property] = changes[property]
+        }
     }
 }
 
@@ -198,10 +205,6 @@ function startGame() {
     document.querySelector("#create-character").classList.add("hidden")
     document.querySelector("#room").classList.remove("hidden")
     updateRoom()
-}
-
-function makePerson(i,s,c,d) {
-    return {intelligence: i, strength: s, constitution: c, dexterity: d, location: 'floor'}
 }
 
 //Ability Checking
