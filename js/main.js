@@ -26,6 +26,11 @@ class Interactable {
         newInteractable.classList.add("interactable")
         newInteractable.id = obj
         document.getElementById("interactables").appendChild(newInteractable)
+        //add an image of the object to the object
+        const img = document.createElement("img")
+        img.src = `images/${obj}.png`
+        img.alt = `This is a(n) ${obj}`
+        document.getElementById(obj).appendChild(img)
         //add basic result sets to all action possibilities
         for (let i of Object.keys(actions)) {
             this[i] = new ResultSet(i,obj)
@@ -315,6 +320,7 @@ document.querySelector("#roll-check").addEventListener('click', sendResponse)
 
 function startInteraction(obj) {
     document.getElementById("interact-screen").classList.remove('hidden')
+    document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
     currentObject = obj
 }
 
