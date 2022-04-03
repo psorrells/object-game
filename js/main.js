@@ -245,6 +245,7 @@ function createACharacter() {
         characters.push(currentCharacter)
         alert(`Character created! ${currentCharacter.name}'s stats are int:${currentCharacter.intelligence} str:${currentCharacter.strength} con:${currentCharacter.constitution} dex:${currentCharacter.dexterity}`)
         document.querySelectorAll("input").forEach(input => input.value = "")
+        document.querySelector("#character-list").innerHTML = characters.map(character => `<li>${character.name}</li>`).join('')
     }
 }
 
