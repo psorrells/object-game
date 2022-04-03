@@ -1,4 +1,4 @@
-# Welcome to the worst Escape Room ever!
+# Welcome to the Worst Escape Room Ever!
 Hi, this is the worst escape room ever, a rudimentary ttrpg-style text-based game where you can interact with objects and try to escape from a room! You can have as many players as you want and take turns interacting with objects in the space. Some interactions may have dire consequences, while others may help you win!
 
 ## Contributions
