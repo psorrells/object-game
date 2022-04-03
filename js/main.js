@@ -21,6 +21,12 @@ let currentObject;
 class Interactable {
     constructor(obj) {
         this.name = obj
+        //add the object to the screen
+        const newInteractable = document.createElement("div")
+        newInteractable.classList.add("interactable")
+        newInteractable.id = obj
+        document.getElementById("interactables").appendChild(newInteractable)
+        //add basic result sets to all action possibilities
         for (let i of Object.keys(actions)) {
             this[i] = new ResultSet(i,obj)
         }
@@ -51,8 +57,6 @@ class Interactable {
 
     //Change the values of a result set
     adjustResultSet(actionTaken, critFail = null, cFChange = null, fail = null, fChange = null, mid = null, mChange = null, succ = null, sChange = null, critSucc = null, cSChange = null, s = null, m = null) {
-        (s != null) && (this[actionTaken]["successRoll"] = s);
-        (m != null) && (this[actionTaken]["moderateRoll"] = m);
         (critFail != null) && (this[actionTaken]["critical failure"]["result"] = critFail);
         (critFail != null) && (this[actionTaken]["critical failure"]["changes"] = cFChange);
         (fail != null) && (this[actionTaken]["failure"]["result"] = fail);
@@ -63,6 +67,8 @@ class Interactable {
         (succ != null) && (this[actionTaken]["success"]["changes"] = sChange);
         (critSucc != null) && (this[actionTaken]["critical success"]["result"] = critSucc);
         (critSucc != null) && (this[actionTaken]["critical success"]["changes"] = cSChange);
+        (s != null) && (this[actionTaken]["successRoll"] = s);
+        (m != null) && (this[actionTaken]["moderateRoll"] = m);
     }
 
     //Perform an interaction with an object
