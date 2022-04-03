@@ -2,10 +2,10 @@
 Hi, this is the worst escape room ever, a rudimentary ttrpg-style text-based game where you can interact with objects and try to escape from a room! You can have as many players as you want and take turns interacting with objects in the space. Some interactions may have dire consequences, while others may help you win!
 
 ## Contributions
-If you would like to contribute, please submit any contributions! This is for fun, so feel free to contribute as much or as little as you want, and try not to overwrite other objects. If you want to make your own object, give it a new name to identify it separately. It may also help to identify it with your name/username such as the "pamela suitcase" or the "whisperingGoats loveseat"
+If you would like to contribute, please submit any contributions! This is for fun, so feel free to contribute as much or as little as you want, and try not to overwrite other objects. If you want to make your own object, give it a new name to identify it separately. It may also help to identify it with your name/username such as the "pamela suitcase" or the "whisperingGoats-loveseat"
 
 ### Creating and Submitting Objects
-Objects can be created using the Interactable class. Make sure your object and it's image have the same name, and your image is a 200x200 PNG stored in the images folder. I may switch everything to webP if it makes sense, but for now, thems the works.
+Objects can be created using the Interactable class. Make sure your object and it's image have the same name, and your image is a (not too big) PNG stored in the images folder. I may switch everything to webP if it makes sense, but for now, thems the works.
 To edit the results of interacting your object, use the Interactable.adjustResultSet method--
 ```
 chair.adjustResultSet(
