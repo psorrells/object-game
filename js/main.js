@@ -5,6 +5,9 @@ const actions = {
     "jump on": "dexterity"
 }
 
+let noise;
+
+
 //List of all interactable objects in the scene
 const interactables = {}
 
@@ -79,6 +82,20 @@ class Interactable {
     //Perform an interaction with an object
 
     interact(character, action) {
+        switch(action) {
+            case('study'):
+                getSoundURI('hmmm')
+                break;
+            case('move'):
+                getSoundURI('exhale')
+                break;
+            case('eat'):
+                getSoundURI('chew')
+                break;
+            case('jump on'):
+                getSoundURI('hup')
+                break;
+        }
         let s = this[action]["successRoll"]
         let m = this[action]["moderateRoll"]
         let check = doAbilityCheck(character[actions[action]],m,s)
@@ -322,6 +339,7 @@ function startInteraction(obj) {
     document.getElementById("interact-screen").classList.remove('hidden')
     document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
     currentObject = obj
+    getSoundURI(obj)
 }
 
 function sendResponse(){
@@ -336,4 +354,16 @@ function sendResponse(){
 
 function updateRoom() {
     document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
+}
+
+//Add a sound effect uri to something
+function getSoundURI(sound) {
+    fetch(`https://freesound.org/apiv2/search/text/?query=${sound}&fields=name,previews,tags&token=MWlDKBaMtdIv0AcuLn4bWTNspcLDqFsfGzkkTfRt`)
+    .then(res=>res.json())
+    .then(data => {
+        noise = new Audio(data.results[0].previews["preview-hq-mp3"])
+        noise.play()
+        setTimeout(()=> noise.pause(), 5000)
+    })
+    .catch(err => console.log(err))
 }
