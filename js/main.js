@@ -285,8 +285,8 @@ function createACharacter() {
 //Create a New Game and Load a Game
 function newGame() {
     localStorage.clear()
-    currentGame = new Game()
-    localStorage.setItem('current-game': gameObj)
+    localStorage.setItem('current-game', new Game())
+    currentGame = localStorage.getItem('current-game')
 }
 
 function loadGame() {
@@ -306,21 +306,44 @@ class Game {
         this.currentObject = null;
         this.playing = false;
     }
+
+    startGame() {
+        if (!this.characters[0]) {
+            alert("please create at least one character!")
+            throw new Error('no character created')
+        }
+        this.currentCharacter = characters[0]
+        document.querySelector("#create-character").classList.add("hidden")
+        document.querySelector("#room").classList.remove("hidden")
+        this.updateRoom()
+    }
+
+    // Ability Checking
+    startInteraction(obj) {
+        document.getElementById("interact-screen").classList.remove('hidden')
+        document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
+        this.currentObject = obj
+        getSoundURI(obj)
+    }
+    
+    sendResponse(){
+        const select = document.getElementById("interact-options")
+        const action = select.options[select.selectedIndex].value
+        interactables[this.currentObject].interact(this.currentCharacter,action)
+        document.querySelector("#interact-screen").classList.add("hidden")
+        this.currentCharacter = this.characters[(this.characters.findIndex(c => c.name === this.currentCharacter.name) + 1)%(this.characters.length)]
+        console.log(`Up Next: ${currentCharacter.name}`)
+        this.updateRoom()
+    }
+    
+    updateRoom() {
+        document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
+    }
 }
 
 //Start the Game
-document.querySelector("#start").addEventListener('click',startGame)
-
-function startGame() {
-    if (!characters[0]) {
-        alert("please create at least one character!")
-        throw new Error('no character created')
-    }
-    currentCharacter = characters[0]
-    document.querySelector("#create-character").classList.add("hidden")
-    document.querySelector("#room").classList.remove("hidden")
-    updateRoom()
-}
+document.querySelector("#start").addEventListener('click', currentGame.startGame)
+ 
 
 //Ability Checking
 
@@ -366,26 +389,7 @@ document.querySelectorAll(".interactable").forEach(item => item.addEventListener
 document.querySelector("#roll-check").addEventListener('click', sendResponse)
 
 
-function startInteraction(obj) {
-    document.getElementById("interact-screen").classList.remove('hidden')
-    document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
-    currentObject = obj
-    getSoundURI(obj)
-}
 
-function sendResponse(){
-    const select = document.getElementById("interact-options")
-    const action = select.options[select.selectedIndex].value
-    interactables[currentObject].interact(currentCharacter,action)
-    document.querySelector("#interact-screen").classList.add("hidden")
-    currentCharacter = characters[(characters.findIndex(c => c.name === currentCharacter.name) + 1)%(characters.length)]
-    console.log(`Up Next: ${currentCharacter.name}`)
-    updateRoom()
-}
-
-function updateRoom() {
-    document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
-}
 
 //Add a sound effect uri to something
 function getSoundURI(sound) {
