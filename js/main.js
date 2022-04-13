@@ -1,11 +1,14 @@
+//object for mapping actions to skills
 const actions = {
     "study": "intelligence",
     "move": "strength",
     "eat": "constitution",
     "jump on": "dexterity"
 }
-
+//holds the noise from fetch to play sound effects
 let noise;
+//Hold the game
+let currentGame;
 
 
 //List of all interactable objects in the scene
@@ -276,6 +279,32 @@ function createACharacter() {
         alert(`Character created! ${currentCharacter.name}'s stats are int:${currentCharacter.intelligence} str:${currentCharacter.strength} con:${currentCharacter.constitution} dex:${currentCharacter.dexterity}`)
         document.querySelectorAll("input").forEach(input => input.value = "")
         document.querySelector("#character-list").innerHTML = characters.map(character => `<li>${character.name}</li>`).join('')
+    }
+}
+
+//Create a New Game and Load a Game
+function newGame() {
+    localStorage.clear()
+    currentGame = new Game()
+    localStorage.setItem('current-game': gameObj)
+}
+
+function loadGame() {
+    if (localStorage.getItem('current-game')) {
+        currentGame = localStorage.getItem('current-game')
+    } else {
+        alert('Error: You do not have a current game! create a new one instead.')
+    }
+}
+
+//Game Class
+class Game {
+    constructor() {
+        this.characters = []
+        this.interactables = []
+        this.currentCharacter = null;
+        this.currentObject = null;
+        this.playing = false;
     }
 }
 
