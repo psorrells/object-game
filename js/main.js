@@ -20,6 +20,16 @@ const characters = []
 
 let currentCharacter;
 let currentObject;
+// Create a Character
+document.querySelector("#submit-character").addEventListener('click', createACharacter)
+
+//Start the Game
+document.querySelector("#start").addEventListener('click', currentGame.startGame)
+
+// Interact with an object
+
+document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
+document.querySelector("#roll-check").addEventListener('click', sendResponse)
 
 /* OBJECTS */
 
@@ -260,7 +270,6 @@ class Character {
     }
 }
 
-document.querySelector("#submit-character").addEventListener('click', createACharacter)
 
 function createACharacter() {
     let name = document.querySelector("#name").value
@@ -292,6 +301,7 @@ function newGame() {
 function loadGame() {
     if (localStorage.getItem('current-game')) {
         currentGame = localStorage.getItem('current-game')
+        currentGame.updateRoom()
     } else {
         alert('Error: You do not have a current game! create a new one instead.')
     }
@@ -313,8 +323,7 @@ class Game {
             throw new Error('no character created')
         }
         this.currentCharacter = characters[0]
-        document.querySelector("#create-character").classList.add("hidden")
-        document.querySelector("#room").classList.remove("hidden")
+        this.playing = true;
         this.updateRoom()
     }
 
@@ -338,12 +347,13 @@ class Game {
     
     updateRoom() {
         document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
+        if (this.playing === true) {
+            document.querySelector("#create-character").classList.add("hidden")
+            document.querySelector("#room").classList.remove("hidden")
+        }
     }
 }
 
-//Start the Game
-document.querySelector("#start").addEventListener('click', currentGame.startGame)
- 
 
 //Ability Checking
 
@@ -382,13 +392,6 @@ function doAbilityCheck(ability, moderateValue, successValue) {
         return "success"
     }
 }
-
-// Interact with an object
-
-document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
-document.querySelector("#roll-check").addEventListener('click', sendResponse)
-
-
 
 
 //Add a sound effect uri to something
