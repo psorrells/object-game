@@ -246,7 +246,9 @@ class Character {
 
     update(changes) {
         for (let property in changes) {
-            if (changes[property].includes("+")) {
+            if (typeof changes[property] == 'function') {
+                changes[property]()
+            } else if (changes[property].includes("+")) {
                 this[property] += parseInt(changes[property].slice(1))
             } else {
                 this[property] = changes[property]
