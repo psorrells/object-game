@@ -318,7 +318,7 @@ class Game {
         this.updateRoom()
     }
 
-    // Ability Checking
+    // Object interaction
     startInteraction(obj) {
         document.getElementById("interact-screen").classList.remove('hidden')
         document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
