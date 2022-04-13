@@ -10,27 +10,6 @@ let noise;
 //Hold the game
 let currentGame;
 
-
-//List of all interactable objects in the scene
-const interactables = {}
-
-//List of all Characters in the game
-const characters = []
-
-
-let currentCharacter;
-let currentObject;
-// Create a Character
-document.querySelector("#submit-character").addEventListener('click', createACharacter)
-
-//Start the Game
-document.querySelector("#start").addEventListener('click', currentGame.startGame)
-
-// Interact with an object
-
-document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
-document.querySelector("#roll-check").addEventListener('click', sendResponse)
-
 /* OBJECTS */
 
 /*INTERACTABLE CLASS*/
@@ -283,46 +262,68 @@ function createACharacter() {
     if (i + s + c + d != 10 || i < 0 || s < 0 || c < 0 || d < 0 || i > 10 || s > 10 || c > 10 || d > 10) {
         alert("Please give your charcter positive integer values that sum up to 10 where none are greater than 10 or less than 0")
     } else {
-        currentCharacter = new Character(name,i,s,c,d)
-        characters.push(currentCharacter)
-        alert(`Character created! ${currentCharacter.name}'s stats are int:${currentCharacter.intelligence} str:${currentCharacter.strength} con:${currentCharacter.constitution} dex:${currentCharacter.dexterity}`)
+        currentGame.currentCharacter = new Character(name,i,s,c,d)
+        currentGame.characters.push(currentGame.currentCharacter)
+        alert(`Character created! ${currentGame.currentCharacter.name}'s stats are int:${currentGame.currentCharacter.intelligence} str:${currentGame.currentCharacter.strength} con:${currentGame.currentCharacter.constitution} dex:${currentGame.currentCharacter.dexterity}`)
         document.querySelectorAll("input").forEach(input => input.value = "")
-        document.querySelector("#character-list").innerHTML = characters.map(character => `<li>${character.name}</li>`).join('')
+        document.querySelector("#character-list").innerHTML = currentGame.characters.map(character => `<li>${character.name}</li>`).join('')
     }
 }
 
 //Create a New Game and Load a Game
 function newGame() {
     localStorage.clear()
-    localStorage.setItem('current-game', new Game())
-    currentGame = localStorage.getItem('current-game')
+    currentGame = new Game()
+    localStorage.setItem('current-game', JSON.stringify(currentGame))
+    initializeGame()
 }
 
 function loadGame() {
     if (localStorage.getItem('current-game')) {
-        currentGame = localStorage.getItem('current-game')
+        currentGame = JSON.parse(localStorage.getItem('current-game'))
+        initializeGame()
         currentGame.updateRoom()
     } else {
         alert('Error: You do not have a current game! create a new one instead.')
     }
 }
 
+function initializeGame() {
+    // Create a Character
+    document.querySelector("#submit-character").addEventListener('click', createACharacter)
+
+    //Start the Game
+    document.querySelector("#start").addEventListener('click', currentGame.startGame)
+
+    // Interact with an object
+
+    document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
+    document.querySelector("#roll-check").addEventListener('click', currentGame.sendResponse)
+}
+
 //Game Class
 class Game {
     constructor() {
         this.characters = []
-        this.interactables = []
+        this.interactables = {}
         this.currentCharacter = null;
         this.currentObject = null;
         this.playing = false;
     }
 
     startGame() {
+        //check for characters
+        if (!this.characters) {
+            throw new Error('where are the characters?')
+        }
+        if (!this.currentCharacter) {
+            throw new Error('where is the current character?')
+        }
         if (!this.characters[0]) {
             alert("please create at least one character!")
             throw new Error('no character created')
         }
-        this.currentCharacter = characters[0]
+        this.currentCharacter = this.characters[0]
         this.playing = true;
         this.updateRoom()
     }
@@ -341,12 +342,12 @@ class Game {
         interactables[this.currentObject].interact(this.currentCharacter,action)
         document.querySelector("#interact-screen").classList.add("hidden")
         this.currentCharacter = this.characters[(this.characters.findIndex(c => c.name === this.currentCharacter.name) + 1)%(this.characters.length)]
-        console.log(`Up Next: ${currentCharacter.name}`)
+        console.log(`Up Next: ${this.currentCharacter.name}`)
         this.updateRoom()
     }
     
     updateRoom() {
-        document.getElementById("current-player").textContent = `Current Player: ${currentCharacter.name}`
+        document.getElementById("current-player").textContent = `Current Player: ${this.currentCharacter.name}`
         if (this.playing === true) {
             document.querySelector("#create-character").classList.add("hidden")
             document.querySelector("#room").classList.remove("hidden")
