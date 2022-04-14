@@ -287,7 +287,9 @@ function newGame() {
 
 function loadGame() {
     if (localStorage.getItem('current-game')) {
-        currentGame = JSON.parse(localStorage.getItem('current-game'))
+        currentGame = Object.assign(new Game(), JSON.parse(localStorage.getItem('current-game')))
+        currentGame.characters = currentGame.characters.map(character => Object.assign(new Character(), character))
+        currentGame.currentCharacter = currentGame.characters[0]
         initializeGame()
         currentGame.updateRoom()
     } else {
@@ -361,7 +363,7 @@ class Game {
             document.querySelector("#create-character").classList.add("hidden")
             document.querySelector("#room").classList.remove("hidden")
         }
-        localStorage.setItem('current-game',currentGame)
+        localStorage.setItem('current-game',JSON.stringify(currentGame))
     }
 }
 
