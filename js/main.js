@@ -270,11 +270,16 @@ function createACharacter() {
     }
 }
 
+document.querySelector('#new-game').addEventListener('click',newGame())
+document.querySelector('#load-game').addEventListener('click',loadGame())
+
 //Create a New Game and Load a Game
 function newGame() {
     localStorage.clear()
     currentGame = new Game()
     localStorage.setItem('current-game', JSON.stringify(currentGame))
+    document.querySelector('#initialize-screen').classList.add('hidden')
+    document.querySelector('#create-character').classList.remove('hidden')
     initializeGame()
 }
 
