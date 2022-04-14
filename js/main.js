@@ -361,6 +361,7 @@ class Game {
             document.querySelector("#create-character").classList.add("hidden")
             document.querySelector("#room").classList.remove("hidden")
         }
+        localStorage.setItem('current-game',currentGame)
     }
 }
 
