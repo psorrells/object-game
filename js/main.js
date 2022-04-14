@@ -10,6 +10,8 @@ let noise;
 //Hold the game
 let currentGame;
 
+let basicInteractables = {};
+
 /* OBJECTS */
 
 /*INTERACTABLE CLASS*/
@@ -30,8 +32,8 @@ class Interactable {
         for (let i of Object.keys(actions)) {
             this[i] = new ResultSet(i,obj)
         }
-        //add object to the list of objects
-        interactables[obj] = this
+        //add to basic interactables
+        basicInteractables[obj] = this
         //Result set object maker with defaults
         function ResultSet(actionTaken, obj, s = 16, m = 9, critFail = null, fail = null, mid = null, succ = null, critSucc = null) {
                 this["successRoll"] = s;
@@ -294,16 +296,18 @@ function loadGame() {
 }
 
 function initializeGame() {
+    //add interactables
+    currentGame.interactables = basicInteractables
     // Create a Character
     document.querySelector("#submit-character").addEventListener('click', createACharacter)
 
     //Start the Game
-    document.querySelector("#start").addEventListener('click', currentGame.startGame)
+    document.querySelector("#start").addEventListener('click', currentGame.startGame.bind(currentGame))
 
     // Interact with an object
 
-    document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => startInteraction(item.getAttribute("id"))))
-    document.querySelector("#roll-check").addEventListener('click', currentGame.sendResponse)
+    document.querySelectorAll(".interactable").forEach(item => item.addEventListener('click', () => currentGame.startInteraction(item.getAttribute("id"),currentGame)))
+    document.querySelector("#roll-check").addEventListener('click', currentGame.sendResponse.bind(currentGame))
 }
 
 //Game Class
@@ -334,17 +338,17 @@ class Game {
     }
 
     // Object interaction
-    startInteraction(obj) {
+    startInteraction(obj,cg) {
         document.getElementById("interact-screen").classList.remove('hidden')
         document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
-        this.currentObject = obj
+        cg.currentObject = obj
         getSoundURI(obj)
     }
     
     sendResponse(){
         const select = document.getElementById("interact-options")
         const action = select.options[select.selectedIndex].value
-        interactables[this.currentObject].interact(this.currentCharacter,action)
+        this.interactables[this.currentObject].interact(this.currentCharacter,action)
         document.querySelector("#interact-screen").classList.add("hidden")
         this.currentCharacter = this.characters[(this.characters.findIndex(c => c.name === this.currentCharacter.name) + 1)%(this.characters.length)]
         console.log(`Up Next: ${this.currentCharacter.name}`)
