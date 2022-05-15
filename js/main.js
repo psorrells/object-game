@@ -378,10 +378,11 @@ class Game {
 
     setWin(character = null) {
         let winScreen = document.querySelector('#win-screen h2')
+            document.querySelector("#win-screen").classList.remove('hidden')
         if (character === null) {
             winScreen.textContent = 'Everyone is dead! Game Over!'
         } else {
-            winScreen.textContent = `${Character.name} wins!`
+            winScreen.textContent = `${character.name} wins!`
         }
         this.playing = false;
     }
