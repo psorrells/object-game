@@ -194,15 +194,24 @@ apple.adjustResultSet(
 apple.adjustResultSet(
     actionTaken = "eat",
     critFail = "You try to eat the apple, but choke on a seed. Game over.",
-    null,
+    {"status": "dead"},
     fail = "You try to eat the apple, but don't really like apples, so you put it back down.",
     null,
     mid = "You eat the apple. It's pretty delicious.",
-    null,
+    {"objectChange": () => {
+        document.querySelector('#apple').classList.add('hidden')
+        delete currentGame.interactables['apple']
+    }},
     succ = "You eat the apple. It's the best apple you've ever eaten. You never knew pink ladies could be so good. You eat the whole thing.",
-    null,
+    {"objectChange": () => {
+        document.querySelector('#apple').classList.add('hidden')
+        delete currentGame.interactables['apple']
+    }},
     critSucc = "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls.",
-    null,
+    {"objectChange": () => {
+        document.querySelector('#apple').classList.add('hidden')
+        delete currentGame.interactables['apple']
+    }},
     s = 11,
     m = 6,
     )
