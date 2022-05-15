@@ -283,11 +283,12 @@ function createACharacter() {
     }
 }
 
-document.querySelector('#new-game').addEventListener('click',newGame)
-document.querySelector('#load-game').addEventListener('click',loadGame)
+document.querySelector('.new-game').addEventListener('click',newGame)
+document.querySelector('.load-game').addEventListener('click',loadGame)
 
 //Create a New Game and Load a Game
 function newGame() {
+    document.querySelectorAll('.popup').forEach(popup => popup.classList.add('hidden'))
     localStorage.clear()
     currentGame = new Game()
     localStorage.setItem('current-game', JSON.stringify(currentGame))
