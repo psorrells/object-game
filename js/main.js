@@ -75,19 +75,19 @@ class Interactable {
 
     //Perform an interaction with an object
 
-    interact(character, action) {
+    async interact(character, action) {
         switch(action) {
             case('study'):
-                getSoundURI('hmmm')
+                await getSoundURI('hmmm')
                 break;
             case('move'):
-                getSoundURI('exhale')
+                await getSoundURI('exhale')
                 break;
             case('eat'):
-                getSoundURI('chew')
+                await getSoundURI('chew')
                 break;
             case('jump on'):
-                getSoundURI('hup')
+                await getSoundURI('hup')
                 break;
         }
         let s = this[action]["successRoll"]
@@ -340,11 +340,11 @@ class Game {
     }
 
     // Object interaction
-    startInteraction(obj,cg) {
+    async startInteraction(obj,cg) {
+        await getSoundURI(obj)
         document.getElementById("interact-screen").classList.remove('hidden')
         document.querySelector("#interact-screen h2").textContent = `What do you want to do with the ${obj}`
         cg.currentObject = obj
-        getSoundURI(obj)
     }
     
     sendResponse(){
@@ -408,8 +408,8 @@ function doAbilityCheck(ability, moderateValue, successValue) {
 
 
 //Add a sound effect uri to something
-function getSoundURI(sound) {
-    fetch(`https://freesound.org/apiv2/search/text/?query=${sound}&fields=name,previews,tags&token=MWlDKBaMtdIv0AcuLn4bWTNspcLDqFsfGzkkTfRt`)
+async function getSoundURI(sound) {
+    let promise = fetch(`https://freesound.org/apiv2/search/text/?query=${sound}&fields=name,previews,tags&token=MWlDKBaMtdIv0AcuLn4bWTNspcLDqFsfGzkkTfRt`)
     .then(res=>res.json())
     .then(data => {
         noise = new Audio(data.results[0].previews["preview-hq-mp3"])
@@ -417,4 +417,6 @@ function getSoundURI(sound) {
         setTimeout(()=> noise.pause(), 5000)
     })
     .catch(err => console.log(err))
+
+    return promise
 }
