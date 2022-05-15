@@ -367,6 +367,24 @@ class Game {
         console.log(`Up Next: ${this.currentCharacter.name}`)
         this.updateRoom()
     }
+
+    checkStatus() {
+        this.characters.forEach((character,index) => (character.status === 'dead') ? this.characters.splice(index,1) : null)
+        this.characters.forEach((character) => character.status === free ? setWin(character) : null)
+        if (!this.characters === []) {
+            setWin()
+        }
+    }
+
+    setWin(character = null) {
+        let winScreen = document.querySelector('#win-screen h2')
+        if (character === null) {
+            winScreen.textContent = 'Everyone is dead! Game Over!'
+        } else {
+            winScreen.textContent = `${Character.name} wins!`
+        }
+        this.playing = false;
+    }
     
     updateRoom() {
         document.getElementById("current-player").textContent = `Current Player: ${this.currentCharacter.name}`
@@ -376,6 +394,7 @@ class Game {
         }
         localStorage.setItem('current-game',JSON.stringify(currentGame))
     }
+
 }
 
 
