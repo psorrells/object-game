@@ -228,7 +228,7 @@ apple.adjustResultSet(
     succ = "You jump on the apple, creating not-so-delicious applesauce. It's full of shoe dirt, but by golly, did you jump on that apple.",
     null,
     critSucc = "You jump on the apple, landing perfectly on the stem. As you do this, the apple releases a drill component, and you drill your way out of the walls.",
-    null,
+    {"status": "free"},
     s = 19,
     m = 14,
     )
