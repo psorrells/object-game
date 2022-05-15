@@ -285,9 +285,9 @@ function newGame() {
     initializeGame()
 }
 
-function loadGame() {
+async function loadGame() {
     if (localStorage.getItem('current-game')) {
-        currentGame = Object.assign(new Game(), JSON.parse(localStorage.getItem('current-game')))
+        currentGame = await Object.assign(new Game(), JSON.parse(localStorage.getItem('current-game')))
         currentGame.characters = currentGame.characters.map(character => Object.assign(new Character(), character))
         currentGame.currentCharacter = currentGame.characters[0]
         initializeGame()
