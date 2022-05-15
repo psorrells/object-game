@@ -208,7 +208,9 @@ apple.adjustResultSet(
         delete currentGame.interactables['apple']
     }},
     critSucc = "You eat the apple. This right here is the apple that keeps doctors away. You have become invincible, and smash your way through the walls.",
-    {"objectChange": () => {
+    {
+        "status": "free",
+        "objectChange": () => {
         document.querySelector('#apple').classList.add('hidden')
         delete currentGame.interactables['apple']
     }},
