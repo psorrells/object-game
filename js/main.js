@@ -370,9 +370,9 @@ class Game {
 
     checkStatus() {
         this.characters.forEach((character,index) => (character.status === 'dead') ? this.characters.splice(index,1) : null)
-        this.characters.forEach((character) => character.status === free ? setWin(character) : null)
+        this.characters.forEach((character) => character.status === free ? this.setWin(character) : null)
         if (!this.characters === []) {
-            setWin()
+            this.setWin()
         }
     }
 
@@ -387,6 +387,7 @@ class Game {
     }
     
     updateRoom() {
+        this.checkStatus()
         document.getElementById("current-player").textContent = `Current Player: ${this.currentCharacter.name}`
         if (this.playing === true) {
             document.querySelector("#create-character").classList.add("hidden")
