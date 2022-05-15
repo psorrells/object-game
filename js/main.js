@@ -370,7 +370,7 @@ class Game {
 
     checkStatus() {
         this.characters.forEach((character,index) => (character.status === 'dead') ? this.characters.splice(index,1) : null)
-        this.characters.forEach((character) => character.status === free ? this.setWin(character) : null)
+        this.characters.forEach((character) => character.status === 'free' ? this.setWin(character) : null)
         if (!this.characters === []) {
             this.setWin()
         }
